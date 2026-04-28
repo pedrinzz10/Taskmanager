@@ -33,5 +33,14 @@ services:
       mysql:
         condition: service_healthy
 
+  frontend:
+    build: ./frontend
+    container_name: task_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+
 volumes:
   mysql_data:
