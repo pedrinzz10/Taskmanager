@@ -42,3 +42,14 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// Disable the plain JAR — Gradle generates two JARs by default;
+// only the Spring Boot fat JAR is needed.
+jar {
+	enabled = false
+}
+
+// Fix the output filename so the Dockerfile COPY uses an exact path.
+bootJar {
+	archiveFileName = 'app.jar'
+}
