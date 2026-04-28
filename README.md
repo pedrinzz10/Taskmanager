@@ -2,7 +2,7 @@
 
 ## 📌 Visão Geral
 
-API REST para gerenciamento de tarefas, desenvolvida para demonstrar proficiência em Java 21, persistência relacional e containerização. Ideal como base para estudos de DevOps e arquitetura de microsserviços.
+API REST para gerenciamento de tarefas, desenvolvida para demonstrar proficiência em Java 21, persistência relacional, segurança e containerização. Ideal como base para estudos de DevOps e arquitetura de microsserviços.
 
 ---
 
@@ -10,6 +10,7 @@ API REST para gerenciamento de tarefas, desenvolvida para demonstrar proficiênc
 
 - **CRUD Completo:** Criação, listagem, atualização e exclusão de tarefas.
 - **Persistência:** Integração com MySQL via Spring Data JPA.
+- **Segurança:** Basic Auth com usuário fixo e senha codificada via BCrypt.
 - **Containerização:** Ambiente completo (App + DB) orquestrado via Docker Compose.
 
 ---
@@ -51,6 +52,22 @@ docker-compose up --build
 
 ---
 
+## 🔐 Autenticação
+
+A API utiliza **Basic Auth**. Todas as rotas exigem autenticação.
+
+| Campo | Valor |
+|-------|-------|
+| Usuário | `admin` |
+| Senha | `123` |
+
+Exemplo com curl:
+```bash
+curl -u admin:123 http://localhost:8080/tasks
+```
+
+---
+
 ## 📬 Documentação da API (Endpoints)
 
 | Método | Endpoint      | Descrição                     |
@@ -75,7 +92,7 @@ docker-compose up --build
 
 ## ⚠️ Limitações Atuais
 
-- API pública sem autenticação.
+- Usuário em memória (sem persistência de credenciais).
 - Ausência de tratamento global de exceções.
 - Falta de validação de campos (`@Valid`).
 - Sem paginação nos endpoints de listagem.
@@ -86,7 +103,7 @@ docker-compose up --build
 
 Para elevar o nível do projeto, os seguintes pontos devem ser abordados:
 
-- **Segurança:** Implementar autenticação via JWT (JSON Web Token) com criptografia de senhas BCrypt.
+- **Segurança:** Evoluir de Basic Auth para JWT (JSON Web Token) com refresh token.
 - **Qualidade de Código:** Introduzir MapStruct para conversão de DTOs e interfaces nos Services.
 - **Resiliência:** Adicionar `@ControllerAdvice` para capturar erros de forma amigável.
 - **Banco de Dados:** Implementar migrações com Flyway ou Liquibase.
