@@ -2,13 +2,11 @@ package com.example.taskmanager.controller;
 
 import com.example.taskmanager.dto.TaskRequest;
 import com.example.taskmanager.dto.TaskResponse;
+import com.example.taskmanager.model.Task;
 import com.example.taskmanager.service.TaskService;
 import jakarta.validation.Valid;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
-
 import org.springframework.http.ResponseEntity;
-import com.example.taskmanager.model.Task;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,14 +21,13 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<TaskResponse> getTasks(Authentication auth) {
-        return service.getTasks(auth.getName());
+    public List<TaskResponse> getTasks() {
+        return service.getTasks();
     }
 
     @PostMapping
-    public TaskResponse create(@RequestBody @Valid TaskRequest request,
-                               Authentication auth) {
-        return service.create(request, auth.getName());
+    public TaskResponse create(@RequestBody @Valid TaskRequest request) {
+        return service.create(request);
     }
 
     @GetMapping("/{id}")

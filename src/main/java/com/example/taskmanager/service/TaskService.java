@@ -3,9 +3,7 @@ package com.example.taskmanager.service;
 import com.example.taskmanager.dto.TaskRequest;
 import com.example.taskmanager.dto.TaskResponse;
 import com.example.taskmanager.model.Task;
-import com.example.taskmanager.model.User;
 import com.example.taskmanager.repository.TaskRepository;
-import com.example.taskmanager.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,15 +13,13 @@ import java.util.Optional;
 public class TaskService {
 
     private final TaskRepository taskRepo;
-    private final UserRepository userRepo;
 
-    public TaskService(TaskRepository taskRepo, UserRepository userRepo) {
+    public TaskService(TaskRepository taskRepo) {
         this.taskRepo = taskRepo;
-        this.userRepo = userRepo;
     }
 
-    public List<TaskResponse> getTasks(String username) {
-        return taskRepo.findByUserUsername(username)
+    public List<TaskResponse> getTasks() {
+        return taskRepo.findAll()
                 .stream()
                 .map(t -> new TaskResponse(
                         t.getId(),
@@ -34,14 +30,11 @@ public class TaskService {
                 .toList();
     }
 
-    public TaskResponse create(TaskRequest request, String username) {
-        User user = userRepo.findByUsername(username).orElseThrow();
-
+    public TaskResponse create(TaskRequest request) {
         Task task = new Task();
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
         task.setCompleted(false);
-        task.setUser(user);
 
         Task saved = taskRepo.save(task);
 
